@@ -14,3 +14,23 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
+deploy:
+  steps:
+  - add-to-known_hosts:
+        hostname: dokku.bawte.com
+   - mktemp:
+      envvar: PRIVATEKEY_PATH
+   - create-file:
+      name: write key
+      filename: $PRIVATEKEY_PATH
+      content: $FOO_PRIVATE
+      overwrite: true
+      hide-from-log: true
+   - script:
+      name: deploy code to dokku
+      code: |
+        git remote add dokku dokku@dokku.dev.bawte.com:node-js-app
+        git push dokku master
+   #- script:
+   #   name: start application
+   #   code: ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no YOURSERVER.COM start gocities
