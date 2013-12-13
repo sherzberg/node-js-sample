@@ -17,7 +17,7 @@ build:
 deploy:
   steps:
    - add-to-known_hosts:
-        hostname: dokku.bawte.com
+        hostname: dokku.dev.bawte.com
    - mktemp:
       envvar: PRIVATEKEY_PATH
    - create-file:
